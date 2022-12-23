@@ -1,0 +1,11 @@
+<script setup>
+import { useAuth } from '../modules/auth';
+const { login } = useAuth();
+</script>
+
+<template>
+  <img src="src/assets/images/yandex_logo.svg" alt="yandex_logo" />
+  <button type="button" class="btn btn-warning btn-lg" @click="login">
+    Sign In
+  </button>
+</template>

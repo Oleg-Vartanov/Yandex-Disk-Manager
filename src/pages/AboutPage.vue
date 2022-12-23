@@ -1,0 +1,1 @@
+<template>Yandex Manager</template>
