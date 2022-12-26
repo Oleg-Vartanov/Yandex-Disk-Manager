@@ -31,6 +31,8 @@ const diskInfo: Ref<DiskInfo> = ref({
   used_space: '',
   user: user.value,
 });
+
+const currentDir = ref({});
 // State attributes END.
 
 export const useFileManager: () => FileManager = () => {
@@ -48,13 +50,28 @@ export const useFileManager: () => FileManager = () => {
       }
     );
   };
+
+  const navigate = (path = '') => {
+    API.getRecourse(authState.oAuthToken.access_token, `disk:/${path}`).then(
+      (response) => {
+        console.log(response.data);
+        currentDir.value = response.data;
+      },
+      (error) => {
+        console.log(error);
+        setTopError({ isError: true });
+      }
+    );
+  };
   // Methods END.
 
   return {
     fileManagerState: readonly({
       diskInfo: diskInfo,
       user: user,
+      currentDir: currentDir,
     }),
     setDiskInfo,
+    navigate,
   };
 };
