@@ -1,11 +1,13 @@
 <script setup>
 import { useAuth } from '../modules/auth';
+import { useFileManager } from '../modules/file-manager';
 import { router } from '../router';
 import Api from '../services/api';
 import { useError } from '../modules/error';
 
 const { setTopError } = useError();
-const { setOAuthCode, setOAuthToken, setDiskInfo } = useAuth();
+const { setOAuthCode, setOAuthToken } = useAuth();
+const { setDiskInfo } = useFileManager();
 
 const params = new URLSearchParams(window.location.search);
 const oAuthCode = params.get('code');

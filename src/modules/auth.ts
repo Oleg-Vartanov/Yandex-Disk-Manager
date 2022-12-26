@@ -1,14 +1,6 @@
 import { router } from '../router';
-import { computed, ref, reactive, readonly, Ref, ComputedRef } from 'vue';
-import API from '../services/api';
-import { AuthModule, User, DiskInfo, oAuthToken } from '../interfaces/auth';
-import { useError } from './error';
-
-const clientID = import.meta.env.VITE_YANDEX_CLIENT_ID;
-const clientSecret = import.meta.env.VITE_YANDEX_CLIENT_SECRET;
-const redirectURL = import.meta.env.VITE_YANDEX_REDIRECT_URL;
-
-const { setTopError } = useError();
+import { computed, ref, reactive, readonly, ComputedRef } from 'vue';
+import { AuthModule, oAuthToken } from '../interfaces/auth-interfaces';
 
 // State attributes START.
 const oAuthCode = ref('');
@@ -22,26 +14,6 @@ const oAuthToken: oAuthToken = reactive({
 
 const isLoggedIn: ComputedRef<boolean> = computed(() => {
   return oAuthToken.access_token !== '';
-});
-
-const user: Ref<User> = ref({
-  country: '',
-  display_name: '',
-  login: '',
-  uid: '',
-});
-
-const diskInfo: Ref<DiskInfo> = ref({
-  is_paid: false,
-  max_file_size: '',
-  paid_max_file_size: '',
-  revision: '',
-  system_folders: {},
-  total_space: '',
-  trash_size: '',
-  unlimited_autoupload_enabled: false,
-  used_space: '',
-  user: user.value,
 });
 // State attributes END.
 
@@ -58,25 +30,11 @@ export const useAuth: () => AuthModule = () => {
     oAuthToken.token_type = newOAuthToken.token_type;
   };
 
-  const setDiskInfo = () => {
-    API.getDiskInfo(oAuthToken.access_token).then(
-      (response) => {
-        console.log(response.data);
-        diskInfo.value = response.data;
-        user.value = response.data.user;
-      },
-      (error) => {
-        setTopError({ isError: true });
-        console.log(error);
-      }
-    );
-  };
-
   const login = () => {
     const params = new URLSearchParams({
       response_type: 'code',
-      client_id: clientID,
-      redirect_uri: redirectURL,
+      client_id: import.meta.env.VITE_YANDEX_CLIENT_ID,
+      redirect_uri: import.meta.env.VITE_YANDEX_REDIRECT_URL,
     });
 
     // Gets OAuth code in a login callback.
@@ -97,12 +55,9 @@ export const useAuth: () => AuthModule = () => {
     authState: readonly({
       oAuthToken: oAuthToken,
       isLoggedIn: isLoggedIn,
-      user: user,
-      diskInfo: diskInfo,
     }),
     setOAuthCode,
     setOAuthToken,
-    setDiskInfo,
     login,
     logout,
   };
