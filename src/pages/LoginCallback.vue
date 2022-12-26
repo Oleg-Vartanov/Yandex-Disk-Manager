@@ -5,7 +5,7 @@ import Api from '../services/api';
 import { useError } from '../modules/error';
 
 const { setTopError } = useError();
-const { setOAuthCode, setOAuthToken } = useAuth();
+const { setOAuthCode, setOAuthToken, setDiskInfo } = useAuth();
 
 const params = new URLSearchParams(window.location.search);
 const oAuthCode = params.get('code');
@@ -20,6 +20,9 @@ Api.getOAuthToken(oAuthCode).then(
       refresh_token: response.data.refresh_token,
       token_type: response.data.token_type,
     });
+
+    setDiskInfo();
+
     router.push({ name: 'main' });
   },
   (error) => {

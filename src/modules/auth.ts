@@ -1,40 +1,52 @@
 import { router } from '../router';
-import { computed, reactive, readonly, ref } from 'vue';
+import { computed, ref, reactive, readonly, Ref, ComputedRef } from 'vue';
+import API from '../services/api';
+import { AuthModule, User, DiskInfo, oAuthToken } from '../interfaces/auth';
+import { useError } from './error';
 
 const clientID = import.meta.env.VITE_YANDEX_CLIENT_ID;
 const clientSecret = import.meta.env.VITE_YANDEX_CLIENT_SECRET;
 const redirectURL = import.meta.env.VITE_YANDEX_REDIRECT_URL;
 
+const { setTopError } = useError();
+
+// State attributes START.
 const oAuthCode = ref('');
-const oAuthToken = reactive({
+
+const oAuthToken: oAuthToken = reactive({
   access_token: '',
   expires_at: '',
   refresh_token: '',
   token_type: '',
 });
-const isLoggedIn = computed(() => {
+
+const isLoggedIn: ComputedRef<boolean> = computed(() => {
   return oAuthToken.access_token !== '';
 });
 
-interface AuthModule {
-  authState: Readonly<{
-    authState: Readonly<{
-      oAuthToken: {
-        access_token: string;
-        refresh_token: string;
-        expires_at: string;
-        token_type: string;
-      };
-    }>;
-    isLoggedIn: Readonly<boolean>;
-  }>;
-  setOAuthCode: (newCode: string) => void;
-  setOAuthToken: (newOAuthToken: object) => void;
-  login: () => Promise<unknown>;
-  logout: () => void;
-}
+const user: Ref<User> = ref({
+  country: '',
+  display_name: '',
+  login: '',
+  uid: '',
+});
+
+const diskInfo: Ref<DiskInfo> = ref({
+  is_paid: false,
+  max_file_size: '',
+  paid_max_file_size: '',
+  revision: '',
+  system_folders: {},
+  total_space: '',
+  trash_size: '',
+  unlimited_autoupload_enabled: false,
+  used_space: '',
+  user: user.value,
+});
+// State attributes END.
 
 export const useAuth: () => AuthModule = () => {
+  // Methods START.
   const setOAuthCode = (newCode: string) => {
     oAuthCode.value = newCode;
   };
@@ -44,6 +56,20 @@ export const useAuth: () => AuthModule = () => {
     oAuthToken.expires_at = newOAuthToken.expires_at;
     oAuthToken.refresh_token = newOAuthToken.refresh_token;
     oAuthToken.token_type = newOAuthToken.token_type;
+  };
+
+  const setDiskInfo = () => {
+    API.getDiskInfo(oAuthToken.access_token).then(
+      (response) => {
+        console.log(response.data);
+        diskInfo.value = response.data;
+        user.value = response.data.user;
+      },
+      (error) => {
+        setTopError({ isError: true });
+        console.log(error);
+      }
+    );
   };
 
   const login = () => {
@@ -65,14 +91,18 @@ export const useAuth: () => AuthModule = () => {
     oAuthToken.token_type = '';
     router.push({ name: 'login' });
   };
+  // Methods END.
 
   return {
     authState: readonly({
       oAuthToken: oAuthToken,
       isLoggedIn: isLoggedIn,
+      user: user,
+      diskInfo: diskInfo,
     }),
     setOAuthCode,
     setOAuthToken,
+    setDiskInfo,
     login,
     logout,
   };
