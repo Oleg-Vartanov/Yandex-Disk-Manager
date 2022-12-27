@@ -1,11 +1,14 @@
 import { router } from '../router';
-import { computed, ref, reactive, readonly, ComputedRef } from 'vue';
-import { AuthModule, oAuthToken } from '../interfaces/auth-interfaces';
+import { computed, ref, reactive, readonly, ComputedRef, Ref } from 'vue';
+import {
+  AuthModuleInterface,
+  oAuthTokenInterface,
+} from '../interfaces/auth-interfaces';
 
 // State attributes START.
-const oAuthCode = ref('');
+const oAuthCode: Ref<string | number> = ref('');
 
-const oAuthToken: oAuthToken = reactive({
+const oAuthToken: oAuthTokenInterface = reactive({
   access_token: '',
   expires_at: '',
   refresh_token: '',
@@ -17,7 +20,7 @@ const isLoggedIn: ComputedRef<boolean> = computed(() => {
 });
 // State attributes END.
 
-export const useAuth: () => AuthModule = () => {
+export const useAuth: () => AuthModuleInterface = () => {
   // Methods START.
   const setOAuthCode = (newCode: string) => {
     oAuthCode.value = newCode;

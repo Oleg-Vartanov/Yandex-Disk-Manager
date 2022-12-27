@@ -1,21 +1,21 @@
 import { Ref } from 'vue';
 
-export interface FileManager {
+export interface FileManagerModuleInterface {
   fileManagerState: Readonly<{
-    diskInfo: Ref<DiskInfo>;
-    user: Ref<User>;
+    diskInfo: Ref<DiskInfoInterface>;
+    user: Ref<UserInterface>;
   }>;
   setDiskInfo: () => void;
 }
 
-export interface User {
+export interface UserInterface {
   country: Readonly<string>;
   display_name: Readonly<string>;
   login: Readonly<string>;
   uid: Readonly<string | number>;
 }
 
-export interface DiskInfo {
+export interface DiskInfoInterface {
   is_paid: Readonly<boolean>;
   max_file_size: Readonly<string | number>;
   paid_max_file_size: Readonly<string | number>;
@@ -25,5 +25,5 @@ export interface DiskInfo {
   trash_size: Readonly<string | number>;
   unlimited_autoupload_enabled: Readonly<boolean>;
   used_space: Readonly<string | number>;
-  user: User;
+  user: UserInterface;
 }

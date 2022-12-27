@@ -1,9 +1,9 @@
 import { ref, readonly, Ref } from 'vue';
 import API from '../services/api';
 import {
-  User,
-  DiskInfo,
-  FileManager,
+  UserInterface,
+  DiskInfoInterface,
+  FileManagerModuleInterface,
 } from '../interfaces/file-manager-interfaces';
 import { useError } from './error';
 import { useAuth } from './auth';
@@ -12,14 +12,14 @@ const { authState } = useAuth();
 const { setTopError } = useError();
 
 // State attributes START.
-const user: Ref<User> = ref({
+const user: Ref<UserInterface> = ref({
   country: '',
   display_name: '',
   login: '',
   uid: '',
 });
 
-const diskInfo: Ref<DiskInfo> = ref({
+const diskInfo: Ref<DiskInfoInterface> = ref({
   is_paid: false,
   max_file_size: '',
   paid_max_file_size: '',
@@ -35,7 +35,7 @@ const diskInfo: Ref<DiskInfo> = ref({
 const currentDir = ref({});
 // State attributes END.
 
-export const useFileManager: () => FileManager = () => {
+export const useFileManager: () => FileManagerModuleInterface = () => {
   // Methods START.
   const setDiskInfo = () => {
     API.getDiskInfo(authState.oAuthToken.access_token).then(
