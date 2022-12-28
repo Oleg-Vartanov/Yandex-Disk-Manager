@@ -7,7 +7,7 @@ const { fileManagerState } = useFileManager();
 </script>
 
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container-fluid">
       <button
         class="navbar-toggler"
@@ -45,12 +45,24 @@ const { fileManagerState } = useFileManager();
             >
           </li>
         </ul>
-        <span class="navbar-text"
-          >Welcome, {{ fileManagerState.user.display_name }}!
-        </span>
         <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="#" @click.prevent="logout">Logout</a>
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              {{ fileManagerState.user.display_name }}
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li class="nav-item">
+                <a class="dropdown-item" href="#" @click.prevent="logout"
+                  >Logout</a
+                >
+              </li>
+            </ul>
           </li>
         </ul>
       </div>

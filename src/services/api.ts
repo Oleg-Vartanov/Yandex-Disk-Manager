@@ -48,4 +48,16 @@ export default {
       params,
     });
   },
+
+  // // https://yandex.com/dev/disk/api/reference/content.html
+  // getDownloadLink(accessToken: string, path = '') {
+  //   return axios.get(`${apiBaseUrl}/${apiVersion}/disk/resources`, {
+  //     headers: {
+  //       Authorization: `${authType} ${accessToken}`,
+  //     },
+  //     params: {
+  //       path: path,
+  //     },
+  //   });
+  // },
 };

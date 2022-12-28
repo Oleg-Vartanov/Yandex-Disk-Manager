@@ -32,7 +32,7 @@ const diskInfo: Ref<DiskInfoInterface> = ref({
   user: user.value,
 });
 
-const currentDir = ref({});
+const currentDir = ref({ _embedded: { items: {} } }); // TODO: change a default currentDir + data_type.
 // State attributes END.
 
 export const useFileManager: () => FileManagerModuleInterface = () => {
@@ -58,7 +58,6 @@ export const useFileManager: () => FileManagerModuleInterface = () => {
         currentDir.value = response.data;
       },
       (error) => {
-        console.log(error);
         setTopError({ isError: true });
       }
     );

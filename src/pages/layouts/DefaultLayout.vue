@@ -3,16 +3,26 @@ document.body.className = 'body-default';
 
 import NavBar from '../components/NavBar.vue';
 import TopError from '../components/TopError.vue';
+import AudioSideBar from '../components/AudioSideBar.vue';
 </script>
 
 <template>
   <NavBar></NavBar>
-  <TopError></TopError>
-  <router-view></router-view>
+  <div class="main-container">
+    <TopError></TopError>
+    <AudioSideBar></AudioSideBar>
+    <router-view></router-view>
+  </div>
 </template>
 
 <style>
 body {
   background-color: #d9d8d8;
+}
+
+.main-container {
+  margin-top: 80px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 </style>
