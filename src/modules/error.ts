@@ -1,28 +1,13 @@
-import { reactive, readonly } from 'vue';
-import {
-  ErrorModuleInterface,
-  TopErrorInterface,
-} from '../interfaces/error-interfaces';
+import { ref, readonly, Ref, UnwrapRef } from 'vue';
+import { ErrorModuleInterface } from '../interfaces/error-interface';
+import { Error } from '../classes/error/error';
 
-const defaultError: TopErrorInterface = {
-  isError: false,
-  type: 'danger', // ['success', 'info', 'warning', 'danger']
-  message: 'A server error. Please try later.',
-};
-
-const topError = reactive(defaultError);
+const topError: Ref<UnwrapRef<Error>> = ref(new Error());
 
 export const useError: () => ErrorModuleInterface = () => {
-  const setTopError = (newError: object = {}) => {
-    topError.isError = newError.isError ?? defaultError.isError;
-    topError.type = newError.type ?? defaultError.type;
-    topError.message = newError.message ?? defaultError.message;
-  };
-
   return {
     errorState: readonly({
       topError: topError,
     }),
-    setTopError,
   };
 };

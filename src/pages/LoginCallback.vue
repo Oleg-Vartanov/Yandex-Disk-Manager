@@ -5,9 +5,9 @@ import { router } from '../router';
 import Api from '../services/api';
 import { useError } from '../modules/error';
 
-const { setTopError } = useError();
+const { errorState } = useError();
 const { setOAuthCode, setOAuthToken } = useAuth();
-const { setDiskInfo } = useFileManager();
+const { setGeneralInfo } = useFileManager();
 
 const params = new URLSearchParams(window.location.search);
 const oAuthCode = params.get('code');
@@ -23,12 +23,12 @@ Api.getOAuthToken(oAuthCode).then(
       token_type: response.data.token_type,
     });
 
-    setDiskInfo();
+    setGeneralInfo();
 
     router.push({ name: 'main' });
   },
   (error) => {
-    setTopError({ isError: true });
+    errorState.topError.show();
     console.log(error);
   }
 );

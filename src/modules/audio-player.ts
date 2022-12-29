@@ -1,12 +1,7 @@
-import { ref, readonly, Ref, computed, watch } from 'vue';
-import { useError } from './error';
-import { useAuth } from './auth';
-
-const { authState } = useAuth();
-const { setTopError } = useError();
+import { ref, readonly, Ref } from 'vue';
 
 // State attributes START.
-const audio: Ref<object | null> = ref(null);
+const audio: Ref<HTMLAudioElement | null> = ref(null);
 const currentItem: Ref<object | null> = ref({});
 
 const currentItemPlaybackTime: Ref<number> = ref(0);
@@ -32,10 +27,16 @@ export const useAudioPlayer = () => {
   const setAudioSrc = (src: string) => {
     if (!isAudio()) {
       audio.value = new Audio(src);
+      audio.value.addEventListener('timeupdate', () => {
+        currentItemPlaybackTime.value = audio.value.currentTime;
+      });
     } else if (audio.value.src !== src) {
       audio.value.setAttribute('src', src); //change the source
       audio.value.load(); //load the new source
     }
+    audio.value.addEventListener('loadedmetadata', () => {
+      currentItemDuration.value = audio.value.duration;
+    });
   };
 
   const setCurrentItem = (item: object) => {
@@ -71,13 +72,6 @@ export const useAudioPlayer = () => {
       }
     }
   };
-
-  const getAudioDuration = () => {
-    if (isAudio()) {
-      return audio.value.duration;
-    }
-    return 0;
-  };
   // Methods END.
 
   return {
@@ -85,6 +79,8 @@ export const useAudioPlayer = () => {
       audio: audio,
       currentItem: currentItem,
       isPlaying: isPlaying,
+      currentItemPlaybackTime: currentItemPlaybackTime,
+      currentItemDuration: currentItemDuration,
     }),
     isCurrentItem,
     isAudioType,

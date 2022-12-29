@@ -26,13 +26,19 @@ const {
         <div class="progress">
           <div
             class="progress-bar progress-bar-striped bg-warning"
-            :class="true ? 'progress-bar-animated' : ''"
+            :class="audioPlayerState.isPlaying ? 'progress-bar-animated' : ''"
             role="progressbar"
             aria-label="Animated striped example"
-            aria-valuenow="75"
+            :aria-valuenow="audioPlayerState.currentItemPlaybackTime"
             aria-valuemin="0"
-            aria-valuemax="100"
-            style="width: 75%"
+            :aria-valuemax="audioPlayerState.currentItemDuration"
+            :style="
+              'width:' +
+              (audioPlayerState.currentItemPlaybackTime /
+                audioPlayerState.currentItemDuration) *
+                100 +
+              '%'
+            "
           ></div>
         </div>
       </div>

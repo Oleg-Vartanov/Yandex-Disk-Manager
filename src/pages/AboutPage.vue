@@ -5,13 +5,13 @@ const { fileManagerState } = useFileManager();
 </script>
 
 <template>
-  <div>Total space: {{ fileManagerState.diskInfo.total_space }}</div>
-  <div>Used space: {{ fileManagerState.diskInfo.used_space }}</div>
+  <div>Total space: {{ fileManagerState.generalInfo.totalSpace }}</div>
+  <div>Used space: {{ fileManagerState.generalInfo.usedSpace }}</div>
   <div>
     Free space:
     {{
-      fileManagerState.diskInfo.total_space -
-      fileManagerState.diskInfo.used_space
+      fileManagerState.generalInfo.totalSpace -
+      fileManagerState.generalInfo.usedSpace
     }}
   </div>
 </template>

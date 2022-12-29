@@ -1,13 +1,8 @@
 <script setup lang="ts">
-import { ref, readonly, Ref, computed } from 'vue';
-import { useAuth } from '../modules/auth';
 import { useFileManager } from '../modules/file-manager';
 import { useAudioPlayer } from '../modules/audio-player';
-import { useError } from '../modules/error';
 
-const { setTopError } = useError();
-const { authState } = useAuth();
-const { fileManagerState, navigate } = useFileManager();
+const { fileManagerState, setCurrentDir } = useFileManager();
 const {
   audioPlayerState,
   startAudio,
@@ -16,9 +11,7 @@ const {
   isAudioType,
 } = useAudioPlayer();
 
-navigate();
-
-// const rowClick
+setCurrentDir();
 </script>
 
 <template>
@@ -40,7 +33,7 @@ navigate();
       </thead>
       <tbody>
         <tr
-          v-for="item in fileManagerState.currentDir._embedded.items"
+          v-for="item in fileManagerState.currentDir.embedded.items"
           :key="item.resource_id"
           class="fm-table-row"
           @click="[isCurrentItem(item) ? togglePlayPause() : startAudio(item)]"

@@ -51,7 +51,7 @@ const { fileManagerState } = useFileManager();
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-              {{ fileManagerState.user.display_name }}
+              {{ fileManagerState.user.displayName }}
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
               <li class="nav-item">

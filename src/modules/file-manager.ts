@@ -1,78 +1,57 @@
-import { ref, readonly, Ref } from 'vue';
-import API from '../services/api';
-import {
-  UserInterface,
-  DiskInfoInterface,
-  FileManagerModuleInterface,
-} from '../interfaces/file-manager-interfaces';
+import { ref, readonly, Ref, UnwrapRef } from 'vue';
+import { User } from '../classes/file-manager/user-class';
+import { YandexDiskGeneralInfo } from '../classes/file-manager/yandex-disk-general-info-class';
+import { YandexResourceItem } from '../classes/file-manager/yandex-resource-item';
+import { FileManagerModuleInterface } from '../interfaces/file-manager-interface';
+import { FileManagerEnum } from '../enum/file-manager-enum';
 import { useError } from './error';
 import { useAuth } from './auth';
+import API from '../services/api';
 
 const { authState } = useAuth();
-const { setTopError } = useError();
-
-const rootPath = 'disk:/';
+const { errorState } = useError();
 
 // State attributes START.
-const user: Ref<UserInterface> = ref({
-  country: '',
-  display_name: '',
-  login: '',
-  uid: '',
-});
-
-const diskInfo: Ref<DiskInfoInterface> = ref({
-  is_paid: false,
-  max_file_size: '',
-  paid_max_file_size: '',
-  revision: '',
-  system_folders: {},
-  total_space: '',
-  trash_size: '',
-  unlimited_autoupload_enabled: false,
-  used_space: '',
-  user: user.value,
-});
-
-const currentDir = ref({ _embedded: { items: {} } }); // TODO: change a default currentDir + data_type.
+const user: Ref<UnwrapRef<User>> = ref(new User());
+const generalInfo: Ref<YandexDiskGeneralInfo> = ref(
+  new YandexDiskGeneralInfo()
+);
+const currentDir: Ref<UnwrapRef<YandexResourceItem>> = ref(
+  new YandexResourceItem()
+);
 // State attributes END.
 
 export const useFileManager: () => FileManagerModuleInterface = () => {
-  // Methods START.
-  const setDiskInfo = () => {
+  const setGeneralInfo = () => {
     API.getDiskInfo(authState.oAuthToken.access_token).then(
       (response) => {
-        console.log(response.data);
-        diskInfo.value = response.data;
-        user.value = response.data.user;
+        generalInfo.value.setPropsFromResponse(response.data);
+        user.value.setPropsFromResponse(response.data.user);
       },
       (error) => {
-        setTopError({ isError: true });
-        console.log(error);
+        errorState.topError.value.show();
       }
     );
   };
 
-  const navigate = (path = rootPath) => {
+  const setCurrentDir = (path: string = FileManagerEnum.ROOT_PATH) => {
     API.getRecourse(authState.oAuthToken.access_token, path).then(
       (response) => {
-        console.log(response.data);
-        currentDir.value = response.data;
+        currentDir.value.setPropsFromResponse(response.data);
       },
       (error) => {
-        setTopError({ isError: true });
+        errorState.topError.value.show();
       }
     );
   };
-  // Methods END.
 
   return {
     fileManagerState: readonly({
-      diskInfo: diskInfo,
+      generalInfo: generalInfo,
       user: user,
       currentDir: currentDir,
     }),
-    setDiskInfo,
-    navigate,
+    setGeneralInfo,
+    setCurrentDir,
   };
 };
