@@ -3,16 +3,16 @@ document.body.className = 'body-default';
 
 import NavBar from '../components/NavBar.vue';
 import TopError from '../components/TopError.vue';
-import AudioSideBar from '../components/AudioSideBar.vue';
+import FooterAudioPlayer from '../components/FooterAudioPlayer.vue';
 </script>
 
 <template>
   <NavBar></NavBar>
   <div class="main-container">
     <TopError></TopError>
-    <AudioSideBar></AudioSideBar>
     <router-view></router-view>
   </div>
+  <FooterAudioPlayer></FooterAudioPlayer>
 </template>
 
 <style>

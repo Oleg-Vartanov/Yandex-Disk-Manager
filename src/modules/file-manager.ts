@@ -11,6 +11,8 @@ import { useAuth } from './auth';
 const { authState } = useAuth();
 const { setTopError } = useError();
 
+const rootPath = 'disk:/';
+
 // State attributes START.
 const user: Ref<UserInterface> = ref({
   country: '',
@@ -51,8 +53,8 @@ export const useFileManager: () => FileManagerModuleInterface = () => {
     );
   };
 
-  const navigate = (path = '') => {
-    API.getRecourse(authState.oAuthToken.access_token, `disk:/${path}`).then(
+  const navigate = (path = rootPath) => {
+    API.getRecourse(authState.oAuthToken.access_token, path).then(
       (response) => {
         console.log(response.data);
         currentDir.value = response.data;

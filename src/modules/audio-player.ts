@@ -1,4 +1,4 @@
-import { ref, readonly, Ref, computed } from 'vue';
+import { ref, readonly, Ref, computed, watch } from 'vue';
 import { useError } from './error';
 import { useAuth } from './auth';
 
@@ -8,6 +8,10 @@ const { setTopError } = useError();
 // State attributes START.
 const audio: Ref<object | null> = ref(null);
 const currentItem: Ref<object | null> = ref({});
+
+const currentItemPlaybackTime: Ref<number> = ref(0);
+const currentItemDuration: Ref<number> = ref(100);
+
 const isPlaying: Ref<boolean> = ref(false);
 // State attributes END.
 
@@ -19,6 +23,10 @@ export const useAudioPlayer = () => {
 
   const isCurrentItem = (item: object) => {
     return currentItem.value.resource_id === item.resource_id;
+  };
+
+  const isAudioType = (item: object) => {
+    return item.media_type === 'audio';
   };
 
   const setAudioSrc = (src: string) => {
@@ -79,6 +87,7 @@ export const useAudioPlayer = () => {
       isPlaying: isPlaying,
     }),
     isCurrentItem,
+    isAudioType,
     setAudioSrc,
     startAudio,
     playAudio,
