@@ -1,17 +1,7 @@
 <script setup>
-import { useAuth } from '../../modules/auth';
-import { useFileManager } from '../../modules/file-manager';
 import { useAudioPlayer } from '../../modules/audio-player';
 
-const { logout } = useAuth();
-const { fileManagerState } = useFileManager();
-const {
-  audioPlayerState,
-  startAudio,
-  togglePlayPause,
-  isCurrentItem,
-  isAudioType,
-} = useAudioPlayer();
+const { audioPlayerState, togglePlayPause } = useAudioPlayer();
 </script>
 
 <template>
@@ -20,7 +10,7 @@ const {
   >
     <div class="container-fluid row text-center">
       <div class="col">
-        {{ audioPlayerState.currentItem.name }}
+        {{ audioPlayerState.currentAudioItem.name }}
       </div>
       <div class="col">
         <div class="progress">
@@ -29,13 +19,13 @@ const {
             :class="audioPlayerState.isPlaying ? 'progress-bar-animated' : ''"
             role="progressbar"
             aria-label="Animated striped example"
-            :aria-valuenow="audioPlayerState.currentItemPlaybackTime"
+            :aria-valuenow="audioPlayerState.currentAudioItem.currentTime"
             aria-valuemin="0"
-            :aria-valuemax="audioPlayerState.currentItemDuration"
+            :aria-valuemax="audioPlayerState.currentAudioItem.duration"
             :style="
               'width:' +
-              (audioPlayerState.currentItemPlaybackTime /
-                audioPlayerState.currentItemDuration) *
+              (audioPlayerState.currentAudioItem.currentTime /
+                audioPlayerState.currentAudioItem.duration) *
                 100 +
               '%'
             "
@@ -55,8 +45,7 @@ const {
           type="button"
           height="30"
           :src="[
-            audioPlayerState.isPlaying &&
-            isCurrentItem(audioPlayerState.currentItem)
+            audioPlayerState.isPlaying
               ? 'src/assets/icons/bootstrap/light/pause.svg'
               : 'src/assets/icons/bootstrap/light/play.svg',
           ]"

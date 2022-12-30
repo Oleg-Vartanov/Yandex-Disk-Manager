@@ -1,6 +1,6 @@
-import { yandexDiskGeneralInfoResponseInterface } from '../../interfaces/api-responses';
+import { GeneralInfoResponseInterface } from '../../interfaces/api-responses';
 
-export class YandexDiskGeneralInfo {
+export class GeneralInfo {
   public isPaid = false;
   public maxFileSize = 0;
   public paidMaxFileSize = 0;
@@ -11,7 +11,7 @@ export class YandexDiskGeneralInfo {
   public unlimitedAutoUploadEnabled = false;
   public usedSpace = 0;
 
-  public setPropsFromResponse(data: yandexDiskGeneralInfoResponseInterface) {
+  public setPropsFromResponse(data: GeneralInfoResponseInterface) {
     this.isPaid = data.is_paid;
     this.maxFileSize = data.max_file_size;
     this.paidMaxFileSize = data.paid_max_file_size;

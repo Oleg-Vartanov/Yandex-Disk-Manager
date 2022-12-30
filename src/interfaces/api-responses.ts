@@ -1,18 +1,18 @@
-export interface oAuthTokenResponseInterface {
+export interface OAuthTokenResponseInterface {
   access_token: string;
   expires_in: number;
   refresh_token: string;
   token_type: string;
 }
 
-export interface userResponseInterface {
+export interface UserResponseInterface {
   uid: string;
   display_name: string;
   login: string;
   country: string;
 }
 
-export interface yandexDiskGeneralInfoResponseInterface {
+export interface GeneralInfoResponseInterface {
   is_paid: boolean;
   max_file_size: number;
   paid_max_file_size: number;
@@ -24,7 +24,8 @@ export interface yandexDiskGeneralInfoResponseInterface {
   used_space: number;
 }
 
-export interface yandexResourceItemResponseInterface {
+export interface ItemResponseInterface {
+  // Item
   comment_ids: object;
   created: string;
   exif: object;
@@ -34,12 +35,26 @@ export interface yandexResourceItemResponseInterface {
   resource_id: string;
   revision: number;
   type: string;
-  _embedded: {
-    items: [];
-    limit: number;
-    offset: number;
-    path: string;
-    sort: string;
-    total: number;
-  };
+}
+
+export interface FolderResponseInterface extends ItemResponseInterface {
+  _embedded: Embedded;
+}
+
+export interface FileResponseInterface extends ItemResponseInterface {
+  file: string;
+  md5: string;
+  media_type: string;
+  mime_type: string;
+  sha256: string;
+  size: number;
+}
+
+export interface Embedded {
+  items: FolderResponseInterface[] | FileResponseInterface[];
+  limit: number;
+  offset: number;
+  path: string;
+  sort: string;
+  total: number;
 }

@@ -1,4 +1,4 @@
-import { oAuthTokenResponseInterface } from '../../interfaces/api-responses';
+import { OAuthTokenResponseInterface } from '../../interfaces/api-responses';
 
 export class OAuthToken {
   public accessToken = '';
@@ -6,7 +6,7 @@ export class OAuthToken {
   public refreshToken = '';
   public tokenType = '';
 
-  public setPropsFromResponse(data: oAuthTokenResponseInterface) {
+  public setPropsFromResponse(data: OAuthTokenResponseInterface) {
     this.accessToken = data.access_token ?? this.accessToken;
     this.expiresAt = data.expires_in + Date.now();
     this.refreshToken = data.refresh_token ?? this.refreshToken;

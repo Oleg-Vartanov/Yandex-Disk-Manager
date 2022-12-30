@@ -1,4 +1,4 @@
-import { userResponseInterface } from '../../interfaces/api-responses';
+import { UserResponseInterface } from '../../interfaces/api-responses';
 
 export class User {
   public uid = '';
@@ -6,7 +6,7 @@ export class User {
   public userName = '';
   public language = '';
 
-  public setPropsFromResponse(user: userResponseInterface) {
+  public setPropsFromResponse(user: UserResponseInterface) {
     this.uid = user.uid;
     this.displayName = user.display_name;
     this.userName = user.login;

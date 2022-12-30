@@ -1,75 +1,49 @@
 import { ref, readonly, Ref } from 'vue';
+import { AudioFile } from '../classes/file-manager/audioFile';
 
 // State attributes START.
-const audio: Ref<HTMLAudioElement | null> = ref(null);
-const currentItem: Ref<object | null> = ref({});
+const audio: Ref<HTMLAudioElement> = ref(new Audio());
 
-const currentItemPlaybackTime: Ref<number> = ref(0);
-const currentItemDuration: Ref<number> = ref(100);
+const currentAudioItem: Ref<AudioFile> = ref(new AudioFile());
+audio.value.addEventListener('timeupdate', () => {
+  currentAudioItem.value.currentTime = audio.value.currentTime;
+});
+audio.value.addEventListener('loadedmetadata', () => {
+  currentAudioItem.value.duration = audio.value.duration;
+});
 
 const isPlaying: Ref<boolean> = ref(false);
 // State attributes END.
 
 export const useAudioPlayer = () => {
   // Methods START.
-  const isAudio = () => {
-    return audio.value !== null;
-  };
+  const startAudio = (file: AudioFile) => {
+    currentAudioItem.value = file;
 
-  const isCurrentItem = (item: object) => {
-    return currentItem.value.resource_id === item.resource_id;
-  };
-
-  const isAudioType = (item: object) => {
-    return item.media_type === 'audio';
-  };
-
-  const setAudioSrc = (src: string) => {
-    if (!isAudio()) {
-      audio.value = new Audio(src);
-      audio.value.addEventListener('timeupdate', () => {
-        currentItemPlaybackTime.value = audio.value.currentTime;
-      });
-    } else if (audio.value.src !== src) {
-      audio.value.setAttribute('src', src); //change the source
-      audio.value.load(); //load the new source
+    const src = file.file;
+    if (audio.value.src !== src) {
+      audio.value.setAttribute('src', src); // Change the source.
+      audio.value.load(); // Load the new source.
     }
-    audio.value.addEventListener('loadedmetadata', () => {
-      currentItemDuration.value = audio.value.duration;
-    });
-  };
 
-  const setCurrentItem = (item: object) => {
-    currentItem.value = item;
-  };
-
-  const startAudio = (item: object) => {
-    setCurrentItem(item);
-    setAudioSrc(item.file);
     playAudio();
   };
 
   const playAudio = () => {
-    if (isAudio()) {
-      audio.value.play();
-      isPlaying.value = true;
-    }
+    audio.value.play();
+    isPlaying.value = true;
   };
 
   const pauseAudio = () => {
-    if (isAudio()) {
-      audio.value.pause();
-      isPlaying.value = false;
-    }
+    audio.value.pause();
+    isPlaying.value = false;
   };
 
   const togglePlayPause = () => {
-    if (isAudio()) {
-      if (isPlaying.value) {
-        pauseAudio();
-      } else {
-        playAudio();
-      }
+    if (isPlaying.value) {
+      pauseAudio();
+    } else {
+      playAudio();
     }
   };
   // Methods END.
@@ -77,16 +51,12 @@ export const useAudioPlayer = () => {
   return {
     audioPlayerState: readonly({
       audio: audio,
-      currentItem: currentItem,
+      currentAudioItem: currentAudioItem,
       isPlaying: isPlaying,
-      currentItemPlaybackTime: currentItemPlaybackTime,
-      currentItemDuration: currentItemDuration,
     }),
-    isCurrentItem,
-    isAudioType,
-    setAudioSrc,
     startAudio,
     playAudio,
+    pauseAudio,
     togglePlayPause,
   };
 };

@@ -1,15 +1,10 @@
 <script setup lang="ts">
 import { useFileManager } from '../modules/file-manager';
 import { useAudioPlayer } from '../modules/audio-player';
+import { YandexDiskEnum } from '../enum/yandex-disk-enum';
 
 const { fileManagerState, setCurrentDir } = useFileManager();
-const {
-  audioPlayerState,
-  startAudio,
-  togglePlayPause,
-  isCurrentItem,
-  isAudioType,
-} = useAudioPlayer();
+const { audioPlayerState, startAudio, togglePlayPause } = useAudioPlayer();
 
 setCurrentDir();
 </script>
@@ -34,19 +29,29 @@ setCurrentDir();
       <tbody>
         <tr
           v-for="item in fileManagerState.currentDir.embedded.items"
-          :key="item.resource_id"
+          :key="item.resourceId"
           class="fm-table-row"
-          @click="[isCurrentItem(item) ? togglePlayPause() : startAudio(item)]"
+          @click="
+            [
+              audioPlayerState.currentAudioItem.hasResourceId(item.resourceId)
+                ? togglePlayPause()
+                : startAudio(item),
+            ]
+          "
         >
           <th scope="row">{{ item.type }}</th>
           <td>{{ item.name }}</td>
           <td>{{ item.path }}</td>
           <td>
             <img
-              v-if="isAudioType(item)"
+              v-if="
+                item.type === YandexDiskEnum.ITEM_TYPE_FILE &&
+                item.media_type === 'audio'
+              "
               height="30"
               :src="[
-                audioPlayerState.isPlaying && isCurrentItem(item)
+                audioPlayerState.isPlaying &&
+                audioPlayerState.currentAudioItem.hasResourceId(item.resourceId)
                   ? 'src/assets/icons/bootstrap/dark/pause-circle.svg'
                   : 'src/assets/icons/bootstrap/dark/play-circle.svg',
               ]"

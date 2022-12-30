@@ -1,12 +1,12 @@
 import { ref, readonly, Ref, UnwrapRef } from 'vue';
 import { User } from '../classes/file-manager/user-class';
-import { YandexDiskGeneralInfo } from '../classes/file-manager/yandex-disk-general-info-class';
-import { YandexResourceItem } from '../classes/file-manager/yandex-resource-item';
+import { GeneralInfo } from '../classes/file-manager/general-info';
 import { FileManagerModuleInterface } from '../interfaces/file-manager-interface';
 import { FileManagerEnum } from '../enum/file-manager-enum';
 import { useError } from './error';
 import { useAuth } from './auth';
 import API from '../services/api';
+import { Folder } from '../classes/file-manager/folder';
 
 const { authState } = useAuth();
 const { errorState } = useError();
@@ -14,13 +14,9 @@ const { errorState } = useError();
 // State attributes START.
 const user: Ref<UnwrapRef<User>> = ref(new User());
 
-const generalInfo: Ref<YandexDiskGeneralInfo> = ref(
-  new YandexDiskGeneralInfo()
-);
+const generalInfo: Ref<GeneralInfo> = ref(new GeneralInfo());
 
-const currentDir: Ref<UnwrapRef<YandexResourceItem>> = ref(
-  new YandexResourceItem()
-);
+const currentDir: Ref<UnwrapRef<Folder>> = ref(new Folder());
 // State attributes END.
 
 export const useFileManager: () => FileManagerModuleInterface = () => {
@@ -39,7 +35,9 @@ export const useFileManager: () => FileManagerModuleInterface = () => {
   const setCurrentDir = (path: string = FileManagerEnum.ROOT_PATH) => {
     API.getRecourse(authState.oAuthToken.accessToken, path).then(
       (response) => {
-        currentDir.value.setPropsFromResponse(response.data);
+        currentDir.value = new Folder(response.data);
+        console.log(response.data);
+        console.log(currentDir.value);
       },
       (error) => {
         errorState.topError.show();
