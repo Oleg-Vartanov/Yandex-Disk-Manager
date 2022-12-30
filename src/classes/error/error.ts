@@ -1,11 +1,12 @@
 import { ErrorEnum } from '../../enum/error-enum';
+import { ErrorParamsInterface } from '../../interfaces/error-interface';
 
 export class Error {
   public isError = false;
-  public type = ErrorEnum.DEFAULT_TYPE;
-  public message = ErrorEnum.DEFAULT_MESSAGE;
+  public type: string = ErrorEnum.DEFAULT_TYPE;
+  public message: string = ErrorEnum.DEFAULT_MESSAGE;
 
-  public show(params: object = {}) {
+  public show(params: ErrorParamsInterface = {}) {
     this.isError = true;
     this.type = params.type ?? this.type;
     this.message = params.message ?? this.message;

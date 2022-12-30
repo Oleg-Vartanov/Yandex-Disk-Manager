@@ -13,9 +13,11 @@ const { errorState } = useError();
 
 // State attributes START.
 const user: Ref<UnwrapRef<User>> = ref(new User());
+
 const generalInfo: Ref<YandexDiskGeneralInfo> = ref(
   new YandexDiskGeneralInfo()
 );
+
 const currentDir: Ref<UnwrapRef<YandexResourceItem>> = ref(
   new YandexResourceItem()
 );
@@ -23,24 +25,24 @@ const currentDir: Ref<UnwrapRef<YandexResourceItem>> = ref(
 
 export const useFileManager: () => FileManagerModuleInterface = () => {
   const setGeneralInfo = () => {
-    API.getDiskInfo(authState.oAuthToken.access_token).then(
+    API.getDiskInfo(authState.oAuthToken.accessToken).then(
       (response) => {
         generalInfo.value.setPropsFromResponse(response.data);
         user.value.setPropsFromResponse(response.data.user);
       },
       (error) => {
-        errorState.topError.value.show();
+        errorState.topError.show();
       }
     );
   };
 
   const setCurrentDir = (path: string = FileManagerEnum.ROOT_PATH) => {
-    API.getRecourse(authState.oAuthToken.access_token, path).then(
+    API.getRecourse(authState.oAuthToken.accessToken, path).then(
       (response) => {
         currentDir.value.setPropsFromResponse(response.data);
       },
       (error) => {
-        errorState.topError.value.show();
+        errorState.topError.show();
       }
     );
   };

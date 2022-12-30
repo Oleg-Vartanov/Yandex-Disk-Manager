@@ -1,15 +1,14 @@
 import { useAuth } from '../modules/auth';
 const { authState, logout } = useAuth();
 
-export function tokenExpGuard(to, from, next) {
-  const expires_at = authState.oAuthToken.expires_at;
-  if (expires_at !== '' && expires_at < Date.now() / 1000) {
+export function tokenExpGuard(to: object, from: object, next: any) {
+  if (authState.oAuthToken.expiresAt < Date.now()) {
     logout();
   }
   next();
 }
 
-export function authGuard(to, from, next) {
+export function authGuard(to: object, from: object, next: any) {
   if (authState.isLoggedIn) {
     next();
   } else {
@@ -17,7 +16,7 @@ export function authGuard(to, from, next) {
   }
 }
 
-export function loginGuard(to, from, next) {
+export function loginGuard(to: object, from: object, next: any) {
   if (authState.isLoggedIn) {
     next({ name: 'main' });
   } else {

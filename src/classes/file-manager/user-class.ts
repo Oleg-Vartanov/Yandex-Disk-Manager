@@ -1,21 +1,15 @@
+import { userResponseInterface } from '../../interfaces/api-responses';
+
 export class User {
   public uid = '';
   public displayName = '';
-  public userName: object = {};
+  public userName = '';
   public language = '';
 
-  public setPropsFromResponse(user: object) {
-    this.uid = user.uid ?? this.uid;
-    this.displayName = user.display_name ?? this.displayName;
-    this.userName = user.login ?? this.userName;
-    this.language = user.country ?? this.language;
+  public setPropsFromResponse(user: userResponseInterface) {
+    this.uid = user.uid;
+    this.displayName = user.display_name;
+    this.userName = user.login;
+    this.language = user.country;
   }
-
-  // public resetAllProperties(params: object = {}) {
-  //   params = { ...this.defaultParams, ...params };
-  //   this.uid = params.uid;
-  //   this.displayName = params.displayName;
-  //   this.userName = params.userName;
-  //   this.language = params.language;
-  // }
 }

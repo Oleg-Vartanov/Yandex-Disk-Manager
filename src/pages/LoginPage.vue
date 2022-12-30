@@ -1,5 +1,6 @@
 <script setup>
 import { useAuth } from '../modules/auth';
+
 const { login } = useAuth();
 </script>
 

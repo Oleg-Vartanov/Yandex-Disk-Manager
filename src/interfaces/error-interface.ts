@@ -8,3 +8,8 @@ export interface ErrorModuleInterface {
     }>
   >;
 }
+
+export interface ErrorParamsInterface {
+  type?: string;
+  message?: string;
+}

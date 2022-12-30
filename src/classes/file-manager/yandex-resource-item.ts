@@ -1,4 +1,5 @@
 import { FileManagerEnum } from '../../enum/file-manager-enum';
+import { yandexResourceItemResponseInterface } from '../../interfaces/api-responses';
 
 export class YandexResourceItem {
   public commentIds = {};
@@ -8,14 +9,15 @@ export class YandexResourceItem {
   public name = '';
   public path = '';
   public resourceId = '';
-  public revision = '';
+  public revision = 0;
+  public type = '';
   public embedded: {
     items: YandexResourceItem[];
-    limit: string | number;
-    offset: string | number;
-    path: string | number;
-    sort: string | number;
-    total: string | number;
+    limit: number;
+    offset: number;
+    path: string;
+    sort: string;
+    total: number;
   } = {
     items: [],
     limit: 20,
@@ -25,19 +27,16 @@ export class YandexResourceItem {
     total: 0,
   };
 
-  // constructor() {
-  //   //
-  // }
-
-  public setPropsFromResponse(data: object) {
-    this.commentIds = data.comment_ids ?? this.commentIds;
-    this.created = data.created ?? this.created;
-    this.exif = data.exif ?? this.exif;
-    this.modified = data.modified ?? this.modified;
-    this.name = data.name ?? this.name;
-    this.path = data.path ?? this.path;
-    this.resourceId = data.resource_id ?? this.resourceId;
-    this.revision = data.revision ?? this.revision;
-    this.embedded = data._embedded ?? this.embedded;
+  public setPropsFromResponse(data: yandexResourceItemResponseInterface) {
+    this.commentIds = data.comment_ids;
+    this.created = data.created;
+    this.exif = data.exif;
+    this.modified = data.modified;
+    this.name = data.name;
+    this.path = data.path;
+    this.resourceId = data.resource_id;
+    this.revision = data.revision;
+    this.type = data.type;
+    this.embedded = data._embedded;
   }
 }

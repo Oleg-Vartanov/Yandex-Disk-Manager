@@ -1,38 +1,24 @@
 import { router } from '../router';
-import { computed, ref, reactive, readonly, ComputedRef, Ref } from 'vue';
-import {
-  AuthModuleInterface,
-  oAuthTokenInterface,
-} from '../interfaces/auth-interfaces';
+import { computed, ref, readonly, ComputedRef, Ref, UnwrapRef } from 'vue';
+import { AuthModuleInterface } from '../interfaces/auth-interfaces';
+import { OAuthToken } from '../classes/auth/oauth-token';
+import Api from '../services/api';
+import { useError } from './error';
+
+const { errorState } = useError();
 
 // State attributes START.
-const oAuthCode: Ref<string | number> = ref('');
+const oAuthCode: Ref<string> = ref('');
 
-const oAuthToken: oAuthTokenInterface = reactive({
-  access_token: '',
-  expires_at: '',
-  refresh_token: '',
-  token_type: '',
-});
+const oAuthToken: Ref<UnwrapRef<OAuthToken>> = ref(new OAuthToken());
 
 const isLoggedIn: ComputedRef<boolean> = computed(() => {
-  return oAuthToken.access_token !== '';
+  return oAuthToken.value.accessToken !== '';
 });
 // State attributes END.
 
 export const useAuth: () => AuthModuleInterface = () => {
   // Methods START.
-  const setOAuthCode = (newCode: string) => {
-    oAuthCode.value = newCode;
-  };
-
-  const setOAuthToken = (newOAuthToken: object) => {
-    oAuthToken.access_token = newOAuthToken.access_token;
-    oAuthToken.expires_at = newOAuthToken.expires_at;
-    oAuthToken.refresh_token = newOAuthToken.refresh_token;
-    oAuthToken.token_type = newOAuthToken.token_type;
-  };
-
   const login = () => {
     const params = new URLSearchParams({
       response_type: 'code',
@@ -45,11 +31,22 @@ export const useAuth: () => AuthModuleInterface = () => {
       'https://oauth.yandex.com/authorize?' + params.toString();
   };
 
+  const loginCallback = (newOAuthCode: string) => {
+    oAuthCode.value = newOAuthCode;
+
+    Api.getOAuthToken(oAuthCode.value).then(
+      (response) => {
+        oAuthToken.value.setPropsFromResponse(response.data);
+        router.push({ name: 'main' });
+      },
+      (error) => {
+        errorState.topError.show();
+      }
+    );
+  };
+
   const logout = () => {
-    oAuthToken.access_token = '';
-    oAuthToken.expires_at = '';
-    oAuthToken.refresh_token = '';
-    oAuthToken.token_type = '';
+    oAuthToken.value.reset();
     router.push({ name: 'login' });
   };
   // Methods END.
@@ -59,9 +56,8 @@ export const useAuth: () => AuthModuleInterface = () => {
       oAuthToken: oAuthToken,
       isLoggedIn: isLoggedIn,
     }),
-    setOAuthCode,
-    setOAuthToken,
     login,
+    loginCallback,
     logout,
   };
 };
