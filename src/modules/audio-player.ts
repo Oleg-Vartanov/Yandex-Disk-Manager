@@ -1,4 +1,4 @@
-import { ref, readonly, Ref } from 'vue';
+import { readonly, ref, Ref } from 'vue';
 import { AudioFile } from '../classes/file-manager/audioFile';
 
 // State attributes START.
@@ -46,6 +46,11 @@ export const useAudioPlayer = () => {
       playAudio();
     }
   };
+
+  const setCurrentTimeByPercentage = (percentage: number) => {
+    audio.value.currentTime =
+      (currentAudioItem.value.duration * percentage) / 100;
+  };
   // Methods END.
 
   return {
@@ -58,5 +63,6 @@ export const useAudioPlayer = () => {
     playAudio,
     pauseAudio,
     togglePlayPause,
+    setCurrentTimeByPercentage,
   };
 };

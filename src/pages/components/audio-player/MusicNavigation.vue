@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { useFileManager } from '../../modules/file-manager';
-import { useAudioPlayer } from '../../modules/audio-player';
-import { File } from '../../classes/file-manager/file';
-import { AudioFile } from '../../classes/file-manager/audioFile';
-import { Folder } from '../../classes/file-manager/folder';
-import { FileManagerEnum } from '../../enum/file-manager-enum';
-import FolderBreadcrumb from './FolderBreadcrumb.vue';
+import { useFileManager } from '../../../modules/file-manager';
+import { useAudioPlayer } from '../../../modules/audio-player';
+import { File } from '../../../classes/file-manager/file';
+import { AudioFile } from '../../../classes/file-manager/audioFile';
+import { Folder } from '../../../classes/file-manager/folder';
+import { FileManagerEnum } from '../../../enum/file-manager-enum';
+import FolderBreadcrumb from '../FolderBreadcrumb.vue';
 
 const { fileManagerState, setCurrentDir, navigateDirUp } = useFileManager();
 const { audioPlayerState, startAudio, togglePlayPause } = useAudioPlayer();
@@ -106,6 +106,11 @@ const rowClick = (item: Folder | File | AudioFile) => {
                   : 'src/assets/icons/bootstrap/dark/play-circle.svg',
               ]"
               alt="PausePlayCircle"
+            />
+            <img
+              v-if="item.constructor.name === Folder.name"
+              src="src/assets/icons/bootstrap/dark/arrow-return-right.svg"
+              alt="Return"
             />
           </td>
         </tr>

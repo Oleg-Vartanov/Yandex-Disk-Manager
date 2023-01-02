@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { useAudioPlayer } from '../../modules/audio-player';
+import { useAudioPlayer } from '../../../modules/audio-player';
+import ProgressBar from './ProgressBar.vue';
 
 const { audioPlayerState, togglePlayPause } = useAudioPlayer();
 </script>
@@ -12,25 +13,8 @@ const { audioPlayerState, togglePlayPause } = useAudioPlayer();
       <div class="col">
         {{ audioPlayerState.currentAudioItem.name }}
       </div>
-      <div class="col">
-        <div class="progress">
-          <div
-            class="progress-bar progress-bar-striped bg-warning"
-            :class="audioPlayerState.isPlaying ? 'progress-bar-animated' : ''"
-            role="progressbar"
-            aria-label="Animated striped example"
-            :aria-valuenow="audioPlayerState.currentAudioItem.currentTime"
-            aria-valuemin="0"
-            :aria-valuemax="audioPlayerState.currentAudioItem.duration"
-            :style="
-              'width:' +
-              (audioPlayerState.currentAudioItem.currentTime /
-                audioPlayerState.currentAudioItem.duration) *
-                100 +
-              '%'
-            "
-          ></div>
-        </div>
+      <div class="col test">
+        <ProgressBar />
       </div>
       <div class="col">
         <img
@@ -75,5 +59,9 @@ const { audioPlayerState, togglePlayPause } = useAudioPlayer();
 .player-button {
   margin-left: 10px;
   margin-right: 10px;
+}
+
+.test {
+  display: inline-block;
 }
 </style>

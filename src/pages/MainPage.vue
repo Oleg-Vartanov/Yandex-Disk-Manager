@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import MusicNavigation from './components/MusicNavigation.vue';
+import MusicNavigation from './components/audio-player/MusicNavigation.vue';
 </script>
 
 <template>

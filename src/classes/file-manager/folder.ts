@@ -4,7 +4,7 @@ import {
   FolderResponseInterface,
 } from '../../interfaces/api-responses';
 import { Item } from './item';
-import { ItemFactory } from './ItemFactory';
+import { ItemFactory } from './item-factory';
 
 export class Folder extends Item {
   public embedded: Embedded = {
