@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { useAuth } from '../../modules/auth';
 import { useFileManager } from '../../modules/file-manager';
 

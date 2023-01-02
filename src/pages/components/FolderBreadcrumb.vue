@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { useFileManager } from '../../modules/file-manager';
 import { computed } from 'vue';
 
@@ -8,8 +8,8 @@ const breadcrumbs = computed(() => {
   return fileManagerState.currentDir.path.split('/');
 });
 
-const navigateDirByBreadcrumbsIndex = (index) => {
-  let newPath = breadcrumbs.value.slice(0, index + 1);
+const navigateDirByBreadcrumbsIndex = (index: number) => {
+  let newPath: string[] | string = breadcrumbs.value.slice(0, index + 1);
   newPath = newPath.join('/');
   setCurrentDir(newPath);
 };

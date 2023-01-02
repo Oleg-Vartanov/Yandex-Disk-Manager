@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { useAudioPlayer } from '../../modules/audio-player';
 
 const { audioPlayerState, togglePlayPause } = useAudioPlayer();

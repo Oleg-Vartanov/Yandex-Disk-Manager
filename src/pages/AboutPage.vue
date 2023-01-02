@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { useFileManager } from '../modules/file-manager';
 
 const { fileManagerState } = useFileManager();

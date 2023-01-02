@@ -1,15 +1,17 @@
-<script setup>
+<script setup lang="ts">
 import { useAuth } from '../modules/auth';
-import { useFileManager } from '../modules/file-manager';
-import { router } from '../router';
-import Api from '../services/api';
 import { useError } from '../modules/error';
 
+const { errorState } = useError();
 const { loginCallback } = useAuth();
 
 const params = new URLSearchParams(window.location.search);
 const oAuthCode = params.get('code');
-loginCallback(oAuthCode);
+if (oAuthCode !== null) {
+  loginCallback(oAuthCode);
+} else {
+  errorState.topError.show();
+}
 </script>
 
 <template>

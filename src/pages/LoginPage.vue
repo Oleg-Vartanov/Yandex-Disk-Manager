@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { useAuth } from '../modules/auth';
 
 const { login } = useAuth();

@@ -1,5 +1,6 @@
-<script setup>
+<script setup lang="ts">
 import { useError } from '../../modules/error';
+
 const { errorState } = useError();
 </script>
 
