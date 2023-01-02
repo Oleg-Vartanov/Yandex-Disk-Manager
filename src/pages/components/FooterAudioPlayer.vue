@@ -38,7 +38,7 @@ const { audioPlayerState, togglePlayPause } = useAudioPlayer();
           type="button"
           height="30"
           src="src/assets/icons/bootstrap/light/skip-backward.svg"
-          alt="pause-circle"
+          alt="PauseCircle"
         />
         <img
           class="player-button"
@@ -49,7 +49,7 @@ const { audioPlayerState, togglePlayPause } = useAudioPlayer();
               ? 'src/assets/icons/bootstrap/light/pause.svg'
               : 'src/assets/icons/bootstrap/light/play.svg',
           ]"
-          alt="pause-play-circle"
+          alt="PausePlayCircle"
           @click="togglePlayPause()"
         />
         <img
@@ -57,14 +57,14 @@ const { audioPlayerState, togglePlayPause } = useAudioPlayer();
           type="button"
           height="30"
           src="src/assets/icons/bootstrap/light/skip-forward.svg"
-          alt="pause-circle"
+          alt="PauseCircle"
         />
         <img
           class="player-button"
           type="button"
           height="30"
           src="src/assets/icons/bootstrap/light/shuffle.svg"
-          alt="pause-circle"
+          alt="PauseCircle"
         />
       </div>
     </div>

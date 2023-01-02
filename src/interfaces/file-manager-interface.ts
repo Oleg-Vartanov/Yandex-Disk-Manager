@@ -12,5 +12,6 @@ export interface FileManagerModuleInterface {
     }>
   >;
   setCurrentDir: (path?: string) => void;
+  navigateDirUp: () => void;
   setGeneralInfo: () => void;
 }

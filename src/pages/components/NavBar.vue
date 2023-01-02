@@ -22,7 +22,7 @@ const { fileManagerState } = useFileManager();
       </button>
       <div id="navbarTogglerDemo03" class="collapse navbar-collapse">
         <div class="navbar-brand">
-          <img src="src/assets/icons/light/yandex-logo.svg" alt="yandex_logo" />
+          <img src="src/assets/icons/light/yandex-logo.svg" alt="YandexLogo" />
         </div>
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">

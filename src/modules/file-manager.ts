@@ -36,13 +36,16 @@ export const useFileManager: () => FileManagerModuleInterface = () => {
     API.getRecourse(authState.oAuthToken.accessToken, path).then(
       (response) => {
         currentDir.value = new Folder(response.data);
-        console.log(response.data);
-        console.log(currentDir.value);
       },
       (error) => {
         errorState.topError.show();
       }
     );
+  };
+
+  const navigateDirUp = () => {
+    const currentPath = currentDir.value.path;
+    setCurrentDir(currentPath.substring(0, currentPath.lastIndexOf('/') + 1)); // Removes last folder from URL.
   };
 
   return {
@@ -53,5 +56,6 @@ export const useFileManager: () => FileManagerModuleInterface = () => {
     }),
     setGeneralInfo,
     setCurrentDir,
+    navigateDirUp,
   };
 };
