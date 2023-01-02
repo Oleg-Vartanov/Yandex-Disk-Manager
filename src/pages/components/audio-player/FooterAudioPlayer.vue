@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useAudioPlayer } from '../../../modules/audio-player';
 import ProgressBar from './ProgressBar.vue';
+import VolumeBar from './VolumeBar.vue';
 
 const { audioPlayerState, togglePlayPause } = useAudioPlayer();
 </script>
@@ -17,39 +18,46 @@ const { audioPlayerState, togglePlayPause } = useAudioPlayer();
         <ProgressBar />
       </div>
       <div class="col">
-        <img
-          class="player-button"
-          type="button"
-          height="30"
-          src="src/assets/icons/bootstrap/light/skip-backward.svg"
-          alt="PauseCircle"
-        />
-        <img
-          class="player-button"
-          type="button"
-          height="30"
-          :src="[
-            audioPlayerState.isPlaying
-              ? 'src/assets/icons/bootstrap/light/pause.svg'
-              : 'src/assets/icons/bootstrap/light/play.svg',
-          ]"
-          alt="PausePlayCircle"
-          @click="togglePlayPause()"
-        />
-        <img
-          class="player-button"
-          type="button"
-          height="30"
-          src="src/assets/icons/bootstrap/light/skip-forward.svg"
-          alt="PauseCircle"
-        />
-        <img
-          class="player-button"
-          type="button"
-          height="30"
-          src="src/assets/icons/bootstrap/light/shuffle.svg"
-          alt="PauseCircle"
-        />
+        <div class="row">
+          <div class="col-8">
+            <img
+              class="player-button"
+              type="button"
+              height="30"
+              src="src/assets/icons/bootstrap/light/skip-backward.svg"
+              alt="PauseCircle"
+            />
+            <img
+              class="player-button"
+              type="button"
+              height="30"
+              :src="[
+                audioPlayerState.isPlaying
+                  ? 'src/assets/icons/bootstrap/light/pause.svg'
+                  : 'src/assets/icons/bootstrap/light/play.svg',
+              ]"
+              alt="PausePlayCircle"
+              @click="togglePlayPause()"
+            />
+            <img
+              class="player-button"
+              type="button"
+              height="30"
+              src="src/assets/icons/bootstrap/light/skip-forward.svg"
+              alt="PauseCircle"
+            />
+            <img
+              class="player-button"
+              type="button"
+              height="25"
+              src="src/assets/icons/bootstrap/light/shuffle.svg"
+              alt="PauseCircle"
+            />
+          </div>
+          <div class="col-4">
+            <VolumeBar />
+          </div>
+        </div>
       </div>
     </div>
   </nav>

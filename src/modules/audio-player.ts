@@ -51,6 +51,10 @@ export const useAudioPlayer = () => {
     audio.value.currentTime =
       (currentAudioItem.value.duration * percentage) / 100;
   };
+
+  const setVolumeByPercentage = (percentage: number) => {
+    audio.value.volume = percentage / 100;
+  };
   // Methods END.
 
   return {
@@ -64,5 +68,6 @@ export const useAudioPlayer = () => {
     pauseAudio,
     togglePlayPause,
     setCurrentTimeByPercentage,
+    setVolumeByPercentage,
   };
 };
