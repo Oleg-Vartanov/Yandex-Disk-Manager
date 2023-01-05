@@ -19,7 +19,6 @@ const rowClick = (item: Folder | File | AudioFile) => {
       break;
 
     case File.name:
-      console.log(File.name);
       break;
 
     case AudioFile.name:
@@ -31,11 +30,27 @@ const rowClick = (item: Folder | File | AudioFile) => {
       break;
   }
 };
+
+const itemPlayIcon = (itemResourceId: string) => {
+  if (
+    audioPlayerState.isPlaying &&
+    audioPlayerState.currentAudioItem.hasResourceId(itemResourceId)
+  ) {
+    return new URL(
+      '/src/assets/icons/bootstrap/dark/pause-circle.svg',
+      import.meta.url
+    ).href;
+  }
+  return new URL(
+    '/src/assets/icons/bootstrap/dark/play-circle.svg',
+    import.meta.url
+  ).href;
+};
 </script>
 
 <template>
   <h1 class="d-flex justify-content-center">Disk Music</h1>
-  <FolderBreadcrumb></FolderBreadcrumb>
+  <FolderBreadcrumb />
   <table class="table table-hover">
     <thead>
       <tr>
@@ -53,7 +68,7 @@ const rowClick = (item: Folder | File | AudioFile) => {
       >
         <th>
           <img
-            src="src/assets/icons/bootstrap/dark/arrow-return-left.svg"
+            src="/src/assets/icons/bootstrap/dark/arrow-return-left.svg"
             alt="Return"
           />
         </th>
@@ -76,19 +91,19 @@ const rowClick = (item: Folder | File | AudioFile) => {
           <th>
             <img
               v-if="item.constructor.name === AudioFile.name"
-              src="src/assets/icons/bootstrap/dark/file-earmark-music.svg"
+              src="/src/assets/icons/bootstrap/dark/file-earmark-music.svg"
               height="30"
               alt="AudioFile"
             />
             <img
               v-if="item.constructor.name === Folder.name"
-              src="src/assets/icons/bootstrap/dark/folder.svg"
+              src="/src/assets/icons/bootstrap/dark/folder.svg"
               height="30"
               alt="Folder"
             />
             <img
               v-if="item.constructor.name === File.name"
-              src="src/assets/icons/bootstrap/dark/file-earmark-x.svg"
+              src="/src/assets/icons/bootstrap/dark/file-earmark-x.svg"
               height="30"
               alt="File"
             />
@@ -99,17 +114,12 @@ const rowClick = (item: Folder | File | AudioFile) => {
             <img
               v-if="item.constructor.name === AudioFile.name"
               height="30"
-              :src="[
-                audioPlayerState.isPlaying &&
-                audioPlayerState.currentAudioItem.hasResourceId(item.resourceId)
-                  ? 'src/assets/icons/bootstrap/dark/pause-circle.svg'
-                  : 'src/assets/icons/bootstrap/dark/play-circle.svg',
-              ]"
+              :src="itemPlayIcon(item.resourceId)"
               alt="PausePlayCircle"
             />
             <img
               v-if="item.constructor.name === Folder.name"
-              src="src/assets/icons/bootstrap/dark/arrow-return-right.svg"
+              src="/src/assets/icons/bootstrap/dark/arrow-return-right.svg"
               alt="Return"
             />
           </td>

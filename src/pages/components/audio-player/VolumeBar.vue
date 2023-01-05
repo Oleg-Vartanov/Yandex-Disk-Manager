@@ -42,11 +42,20 @@ const setVolumeOnMouseEvent = (event: MouseEvent) => {
 
 const volumeIcon = computed(() => {
   if (volumePercentage.value === 0) {
-    return 'src/assets/icons/bootstrap/light/volume-mute.svg';
+    return new URL(
+      '/src/assets/icons/bootstrap/light/volume-mute.svg',
+      import.meta.url
+    ).href;
   } else if (volumePercentage.value < 50) {
-    return 'src/assets/icons/bootstrap/light/volume-down.svg';
+    return new URL(
+      '/src/assets/icons/bootstrap/light/volume-down.svg',
+      import.meta.url
+    ).href;
   }
-  return 'src/assets/icons/bootstrap/light/volume-up.svg';
+  return new URL(
+    '/src/assets/icons/bootstrap/light/volume-up.svg',
+    import.meta.url
+  ).href;
 });
 
 const volumeIconClick = () => {

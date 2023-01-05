@@ -4,6 +4,17 @@ import ProgressBar from './ProgressBar.vue';
 import VolumeBar from './VolumeBar.vue';
 
 const { audioPlayerState, togglePlayPause } = useAudioPlayer();
+
+const playIcon = () => {
+  if (audioPlayerState.isPlaying) {
+    return new URL(
+      '/src/assets/icons/bootstrap/light/pause.svg',
+      import.meta.url
+    ).href;
+  }
+  return new URL('/src/assets/icons/bootstrap/light/play.svg', import.meta.url)
+    .href;
+};
 </script>
 
 <template>
@@ -24,18 +35,14 @@ const { audioPlayerState, togglePlayPause } = useAudioPlayer();
               class="player-button"
               type="button"
               height="30"
-              src="src/assets/icons/bootstrap/light/skip-backward.svg"
+              src="/src/assets/icons/bootstrap/light/skip-backward.svg"
               alt="PauseCircle"
             />
             <img
               class="player-button"
               type="button"
               height="30"
-              :src="[
-                audioPlayerState.isPlaying
-                  ? 'src/assets/icons/bootstrap/light/pause.svg'
-                  : 'src/assets/icons/bootstrap/light/play.svg',
-              ]"
+              :src="playIcon()"
               alt="PausePlayCircle"
               @click="togglePlayPause()"
             />
@@ -43,14 +50,14 @@ const { audioPlayerState, togglePlayPause } = useAudioPlayer();
               class="player-button"
               type="button"
               height="30"
-              src="src/assets/icons/bootstrap/light/skip-forward.svg"
+              src="/src/assets/icons/bootstrap/light/skip-forward.svg"
               alt="PauseCircle"
             />
             <img
               class="player-button"
               type="button"
               height="25"
-              src="src/assets/icons/bootstrap/light/shuffle.svg"
+              src="/src/assets/icons/bootstrap/light/shuffle.svg"
               alt="PauseCircle"
             />
           </div>
