@@ -26,7 +26,7 @@ Set a Callback URl to https://your-domain.com/login/callback
 Create .env file in a root directory, using .env_example file. Fill it with data of your Yandex OAuth app.
 
 
-#### 4) All is ready now.
+#### 4) All is ready now
 
 ```php
 // You can run it in development mode
