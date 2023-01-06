@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite --force --host",
     "build": "vite build",
-    "preview": "vite preview --host 0.0.0.0 --port $PORT",
+    "preview": "vite preview",
     "start": "vite preview --host 0.0.0.0 --port $PORT",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",
     "format": "prettier .  --write"
