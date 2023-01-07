@@ -24,6 +24,7 @@ export const useAuth: () => AuthModuleInterface = () => {
       response_type: 'code',
       client_id: import.meta.env.VITE_YANDEX_CLIENT_ID,
       redirect_uri: import.meta.env.VITE_YANDEX_REDIRECT_URL,
+      force_confirm: 'true',
     });
 
     // Gets OAuth code in a login callback.
