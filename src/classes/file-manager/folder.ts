@@ -5,6 +5,8 @@ import {
 } from '../../interfaces/api-responses';
 import { Item } from './item';
 import { ItemFactory } from './item-factory';
+import { File } from './file';
+import { AudioFile } from './audioFile';
 
 export class Folder extends Item {
   public embedded: Embedded = {
@@ -26,7 +28,7 @@ export class Folder extends Item {
   public setEmbeddedFromResponse(data: FolderResponseInterface) {
     // If there are embedded items.
     if ('_embedded' in data && Object.keys(data._embedded).length !== 0) {
-      const embeddedItems: any[] = [];
+      const embeddedItems: (Folder | File | AudioFile)[] = [];
 
       if (data._embedded.items.length !== 0) {
         data._embedded.items.forEach((itemRaw) => {

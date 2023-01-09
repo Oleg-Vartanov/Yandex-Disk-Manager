@@ -1,4 +1,6 @@
-import { FileManagerEnum } from '../enum/file-manager-enum';
+import { Folder } from '../classes/file-manager/folder';
+import { File } from '../classes/file-manager/file';
+import { AudioFile } from '../classes/file-manager/audioFile';
 
 export interface OAuthTokenResponseInterface {
   access_token: string;
@@ -53,7 +55,7 @@ export interface FileResponseInterface extends ItemResponseInterface {
 }
 
 export interface Embedded {
-  items: FolderResponseInterface[] | FileResponseInterface[];
+  items: (Folder | File | AudioFile)[];
   limit: number;
   offset: number;
   path: string;

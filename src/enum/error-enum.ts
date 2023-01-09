@@ -1,8 +1,8 @@
-export enum ErrorEnum {
-  DEFAULT_TYPE = 'danger',
-  TYPE_SUCCESS = 'success',
-  TYPE_INFO = 'info',
-  TYPE_WARNING = 'warning',
-  TYPE_DANGER = 'danger',
-  DEFAULT_MESSAGE = 'A server error. Please try later.',
+export class ErrorEnum {
+  public static DEFAULT_TYPE = 'danger';
+  public static TYPE_SUCCESS = 'success';
+  public static TYPE_INFO = 'info';
+  public static TYPE_WARNING = 'warning';
+  public static TYPE_DANGER = 'danger';
+  public static DEFAULT_MESSAGE = 'A server error. Please try later.';
 }
