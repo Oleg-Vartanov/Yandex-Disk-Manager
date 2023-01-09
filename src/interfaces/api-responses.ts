@@ -56,7 +56,7 @@ export interface Embedded {
   items: FolderResponseInterface[] | FileResponseInterface[];
   limit: number;
   offset: number;
-  path: string | FileManagerEnum;
+  path: string;
   sort: string;
   total: number;
 }

@@ -9,6 +9,13 @@ const { fileManagerState } = useFileManager();
 <template>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container-fluid">
+      <div
+        v-if="fileManagerState.isLoading"
+        class="spinner-border text-warning"
+        role="status"
+      >
+        <span class="visually-hidden">Loading...</span>
+      </div>
       <button
         class="navbar-toggler"
         type="button"
