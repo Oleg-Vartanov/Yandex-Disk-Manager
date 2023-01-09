@@ -1,12 +1,12 @@
-import { UserResponseInterface } from '../../interfaces/api-responses';
+import { YandexDiskUserResponseInterface } from '../../interfaces/api-responses';
 
-export class User {
+export class YandexDiskUser {
   public uid = '';
   public displayName = '';
   public userName = '';
   public language = '';
 
-  public setPropsFromResponse(user: UserResponseInterface) {
+  public setPropsFromResponse(user: YandexDiskUserResponseInterface) {
     this.uid = user.uid;
     this.displayName = user.display_name;
     this.userName = user.login;

@@ -4,6 +4,7 @@ import { AuthModuleInterface } from '../interfaces/auth-interfaces';
 import { OAuthToken } from '../classes/auth/oauth-token';
 import Api from '../services/api';
 import { useError } from './error';
+import { YandexIDUser } from '../classes/auth/yandex-id-user';
 
 const { errorState } = useError();
 
@@ -15,6 +16,8 @@ const oAuthToken: Ref<UnwrapRef<OAuthToken>> = ref(new OAuthToken());
 const isLoggedIn: ComputedRef<boolean> = computed(() => {
   return oAuthToken.value.accessToken !== '';
 });
+
+const user: Ref<UnwrapRef<YandexIDUser>> = ref(new YandexIDUser());
 // State attributes END.
 
 export const useAuth: () => AuthModuleInterface = () => {
@@ -35,20 +38,30 @@ export const useAuth: () => AuthModuleInterface = () => {
   const loginCallback = (newOAuthCode: string) => {
     oAuthCode.value = newOAuthCode;
 
-    Api.getOAuthToken(oAuthCode.value).then(
-      (response) => {
+    Api.getOAuthToken(oAuthCode.value)
+      .then((response) => {
         oAuthToken.value.setPropsFromResponse(response.data);
+        setUserInfo();
         router.push({ name: 'main' });
-      },
-      (error) => {
+      })
+      .catch((error) => {
         errorState.topError.show();
-      }
-    );
+      });
   };
 
   const logout = () => {
     oAuthToken.value.reset();
     router.push({ name: 'login' });
+  };
+
+  const setUserInfo = () => {
+    Api.getUserInfo(oAuthToken.value.accessToken)
+      .then((response) => {
+        user.value.setPropsFromResponse(response.data);
+      })
+      .catch((error) => {
+        errorState.topError.show();
+      });
   };
   // Methods END.
 
@@ -56,6 +69,7 @@ export const useAuth: () => AuthModuleInterface = () => {
     authState: readonly({
       oAuthToken: oAuthToken,
       isLoggedIn: isLoggedIn,
+      user: user,
     }),
     login,
     loginCallback,

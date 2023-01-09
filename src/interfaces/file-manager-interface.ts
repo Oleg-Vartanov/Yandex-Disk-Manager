@@ -1,5 +1,5 @@
 import { DeepReadonly, Ref, UnwrapRef, UnwrapNestedRefs } from 'vue';
-import { User } from '../classes/file-manager/user-class';
+import { YandexDiskUser } from '../classes/file-manager/yandex-disk-user';
 import { GeneralInfo } from '../classes/file-manager/general-info';
 import { Folder } from '../classes/file-manager/folder';
 
@@ -8,7 +8,7 @@ export interface FileManagerModuleInterface {
     UnwrapNestedRefs<{
       currentDir: Ref<UnwrapRef<Folder>>;
       generalInfo: Ref<GeneralInfo>;
-      user: Ref<UnwrapRef<User>>;
+      user: Ref<UnwrapRef<YandexDiskUser>>;
     }>
   >;
   setCurrentDir: (path?: string) => void;

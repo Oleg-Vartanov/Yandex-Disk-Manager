@@ -18,7 +18,7 @@ npm install
 #### 2) Setup Yandex OAuth application
 Go to [Yandex OAuth](https://oauth.yandex.com/) and create an app there. 
 
-Give all access rights to use Yandex.Disk REST API data.
+Give all access rights to use `Yandex.Disk REST API` and `Yandex ID` data.
 
 Set a Callback URl to https://your-domain.com/login/callback
 

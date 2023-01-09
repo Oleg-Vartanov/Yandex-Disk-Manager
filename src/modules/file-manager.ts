@@ -1,5 +1,5 @@
 import { ref, readonly, Ref, UnwrapRef } from 'vue';
-import { User } from '../classes/file-manager/user-class';
+import { YandexDiskUser } from '../classes/file-manager/yandex-disk-user';
 import { GeneralInfo } from '../classes/file-manager/general-info';
 import { FileManagerModuleInterface } from '../interfaces/file-manager-interface';
 import { FileManagerEnum } from '../enum/file-manager-enum';
@@ -12,7 +12,7 @@ const { authState } = useAuth();
 const { errorState } = useError();
 
 // State attributes START.
-const user: Ref<UnwrapRef<User>> = ref(new User());
+const user: Ref<UnwrapRef<YandexDiskUser>> = ref(new YandexDiskUser());
 
 const generalInfo: Ref<GeneralInfo> = ref(new GeneralInfo());
 
