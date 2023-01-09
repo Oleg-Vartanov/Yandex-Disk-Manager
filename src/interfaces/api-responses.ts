@@ -9,7 +9,7 @@ export interface OAuthTokenResponseInterface {
   token_type: string;
 }
 
-export interface UserResponseInterface {
+export interface YandexDiskUserResponseInterface {
   uid: string;
   display_name: string;
   login: string;
@@ -61,4 +61,27 @@ export interface Embedded {
   path: string;
   sort: string;
   total: number;
+}
+
+export interface YandexIDUserResponseInterface {
+  birthday: string;
+  client_id: string;
+  default_avatar_id: string;
+  default_email: string;
+  default_phone: YandexIDDefaultPhoneResponseInterface;
+  display_name: string;
+  emails: string[];
+  first_name: string;
+  id: string;
+  is_avatar_empty: boolean;
+  last_name: string;
+  login: string;
+  psuid: string;
+  real_name: string;
+  sex: any; // Type?
+}
+
+export interface YandexIDDefaultPhoneResponseInterface {
+  id: number;
+  number: string;
 }

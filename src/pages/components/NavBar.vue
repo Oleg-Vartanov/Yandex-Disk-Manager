@@ -2,7 +2,7 @@
 import { useAuth } from '../../modules/auth';
 import { useFileManager } from '../../modules/file-manager';
 
-const { logout } = useAuth();
+const { authState, logout } = useAuth();
 const { fileManagerState } = useFileManager();
 </script>
 
@@ -58,6 +58,12 @@ const { fileManagerState } = useFileManager();
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
+              <img
+                class="rounded-circle shadow-4-strong"
+                alt="avatar2"
+                :src="authState.user.getDefaultAvatarIdLink()"
+                style="height: 40px"
+              />
               {{ fileManagerState.user.displayName }}
             </a>
             <ul class="dropdown-menu dropdown-menu-end">

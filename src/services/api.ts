@@ -21,6 +21,17 @@ export default {
     );
   },
 
+  // https://yandex.com/dev/id/doc/dg/api-id/reference/request.html
+  getUserInfo(accessToken: string) {
+    return axios.post(
+      `https://login.yandex.ru/info`,
+      new URLSearchParams({
+        format: 'json',
+        oauth_token: accessToken,
+      })
+    );
+  },
+
   // https://yandex.com/dev/disk/api/reference/capacity.html
   getDiskInfo(accessToken: string) {
     return axios.get(`${apiBaseUrl}/${apiVersion}/disk`, {
