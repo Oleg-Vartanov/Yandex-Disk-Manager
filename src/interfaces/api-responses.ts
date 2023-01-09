@@ -1,3 +1,5 @@
+import { FileManagerEnum } from '../enum/file-manager-enum';
+
 export interface OAuthTokenResponseInterface {
   access_token: string;
   expires_in: number;
@@ -54,7 +56,7 @@ export interface Embedded {
   items: FolderResponseInterface[] | FileResponseInterface[];
   limit: number;
   offset: number;
-  path: string;
+  path: string | FileManagerEnum;
   sort: string;
   total: number;
 }
