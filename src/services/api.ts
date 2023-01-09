@@ -8,6 +8,7 @@ const apiVersion = 'v1';
 const authType = 'OAuth';
 
 export default {
+  // https://yandex.com/dev/id/doc/dg/oauth/reference/auto-code-client.html#auto-code-client__code-url
   getOAuthToken(oAuthCode: string) {
     return axios.post(
       `https://oauth.yandex.com/token`,
@@ -20,6 +21,7 @@ export default {
     );
   },
 
+  // https://yandex.com/dev/disk/api/reference/capacity.html
   getDiskInfo(accessToken: string) {
     return axios.get(`${apiBaseUrl}/${apiVersion}/disk`, {
       headers: {
@@ -28,13 +30,16 @@ export default {
     });
   },
 
-  getRecourse(accessToken: string, path = '') {
+  // https://yandex.com/dev/disk/api/reference/meta.html
+  getRecourse(accessToken: string, path = '', limit = 30, offset = 0) {
     return axios.get(`${apiBaseUrl}/${apiVersion}/disk/resources`, {
       headers: {
         Authorization: `${authType} ${accessToken}`,
       },
       params: {
         path: path,
+        limit: limit,
+        offset: offset,
       },
     });
   },
@@ -49,15 +54,15 @@ export default {
     });
   },
 
-  // // https://yandex.com/dev/disk/api/reference/content.html
-  // getDownloadLink(accessToken: string, path = '') {
-  //   return axios.get(`${apiBaseUrl}/${apiVersion}/disk/resources`, {
-  //     headers: {
-  //       Authorization: `${authType} ${accessToken}`,
-  //     },
-  //     params: {
-  //       path: path,
-  //     },
-  //   });
-  // },
+  // https://yandex.com/dev/disk/api/reference/content.html
+  getDownloadLink(accessToken: string, path = '') {
+    return axios.get(`${apiBaseUrl}/${apiVersion}/disk/resources`, {
+      headers: {
+        Authorization: `${authType} ${accessToken}`,
+      },
+      params: {
+        path: path,
+      },
+    });
+  },
 };

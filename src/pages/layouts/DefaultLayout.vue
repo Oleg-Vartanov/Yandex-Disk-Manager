@@ -26,8 +26,6 @@ body {
 }
 
 .main-container {
-  margin-top: 80px;
-  margin-left: 10px;
-  margin-right: 10px;
+  margin: 80px 10px 132px;
 }
 </style>

@@ -17,30 +17,74 @@ const user: Ref<UnwrapRef<User>> = ref(new User());
 const generalInfo: Ref<GeneralInfo> = ref(new GeneralInfo());
 
 const currentDir: Ref<UnwrapRef<Folder>> = ref(new Folder());
+const isLoading: Ref<UnwrapRef<boolean>> = ref(false);
 // State attributes END.
 
 export const useFileManager: () => FileManagerModuleInterface = () => {
   const setGeneralInfo = () => {
-    API.getDiskInfo(authState.oAuthToken.accessToken).then(
-      (response) => {
+    API.getDiskInfo(authState.oAuthToken.accessToken)
+      .then((response) => {
         generalInfo.value.setPropsFromResponse(response.data);
         user.value.setPropsFromResponse(response.data.user);
-      },
-      (error) => {
+      })
+      .catch((error) => {
         errorState.topError.show();
-      }
-    );
+      });
   };
 
   const setCurrentDir = (path: string = FileManagerEnum.ROOT_PATH) => {
-    API.getRecourse(authState.oAuthToken.accessToken, path).then(
-      (response) => {
+    const limit = FileManagerEnum.DEFAULT_RESOURCE_LIMIT;
+    const offset = FileManagerEnum.DEFAULT_RESOURCE_OFFSET;
+
+    isLoading.value = true;
+    API.getRecourse(authState.oAuthToken.accessToken, path, limit, offset)
+      .then((response) => {
+        // Init new folder and fill with first items.
         currentDir.value = new Folder(response.data);
-      },
-      (error) => {
+        isLoading.value = false;
+
+        // Load more items recursively (if there are any).
+        loadMoreItems(
+          path,
+          limit + FileManagerEnum.DEFAULT_RESOURCE_LIMIT,
+          offset + FileManagerEnum.DEFAULT_RESOURCE_LIMIT
+        );
+      })
+      .catch(() => {
         errorState.topError.show();
-      }
-    );
+        isLoading.value = false;
+      });
+  };
+
+  const loadMoreItems = (
+    path: string = FileManagerEnum.ROOT_PATH,
+    limit: number,
+    offset: number
+  ) => {
+    if (
+      currentDir.value.embedded.total > currentDir.value.embedded.items.length
+    ) {
+      isLoading.value = true;
+      API.getRecourse(authState.oAuthToken.accessToken, path, limit, offset)
+        .then((response) => {
+          // Append current folder items if it wasn't changed.
+          if (currentDir.value.hasResourceId(response.data.resource_id)) {
+            currentDir.value.appendEmbeddedItems(response.data._embedded);
+            isLoading.value = false;
+
+            // Load more items recursively (if there are any).
+            loadMoreItems(
+              path,
+              limit + FileManagerEnum.DEFAULT_RESOURCE_LIMIT,
+              offset + FileManagerEnum.DEFAULT_RESOURCE_LIMIT
+            );
+          }
+        })
+        .catch((error) => {
+          errorState.topError.show();
+          isLoading.value = false;
+        });
+    }
   };
 
   const navigateDirUp = () => {
@@ -50,6 +94,7 @@ export const useFileManager: () => FileManagerModuleInterface = () => {
 
   return {
     fileManagerState: readonly({
+      isLoading: isLoading,
       generalInfo: generalInfo,
       user: user,
       currentDir: currentDir,

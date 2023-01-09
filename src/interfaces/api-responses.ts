@@ -1,3 +1,5 @@
+import { FileManagerEnum } from '../enum/file-manager-enum';
+
 export interface OAuthTokenResponseInterface {
   access_token: string;
   expires_in: number;

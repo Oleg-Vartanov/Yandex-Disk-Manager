@@ -9,8 +9,8 @@ import { ItemFactory } from './item-factory';
 export class Folder extends Item {
   public embedded: Embedded = {
     items: [],
-    limit: 20,
-    offset: 0,
+    limit: FileManagerEnum.DEFAULT_RESOURCE_LIMIT,
+    offset: FileManagerEnum.DEFAULT_RESOURCE_OFFSET,
     path: FileManagerEnum.ROOT_PATH,
     sort: '',
     total: 0,
@@ -42,6 +42,16 @@ export class Folder extends Item {
         sort: data._embedded.sort,
         total: data._embedded.total,
       };
+    }
+  }
+
+  public appendEmbeddedItems(embedded: Embedded) {
+    if (embedded.items.length !== 0) {
+      embedded.items.forEach((itemRaw) => {
+        this.embedded.items.push(ItemFactory.createItemFromResponse(itemRaw));
+      });
+
+      this.embedded.limit = this.embedded.limit + embedded.limit;
     }
   }
 }
