@@ -31,9 +31,9 @@ export interface GeneralInfoResponseInterface {
 export interface ItemResponseInterface {
   // Item
   comment_ids: object;
-  created: string;
+  created: string; // "2012-04-04T20:00:00+00:00"
   exif: object;
-  modified: string;
+  modified: string; // "2012-04-04T20:00:00+00:00"
   name: string;
   path: string;
   resource_id: string;
