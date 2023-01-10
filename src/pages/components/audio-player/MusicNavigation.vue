@@ -6,6 +6,7 @@ import { AudioFile } from '../../../classes/file-manager/audioFile';
 import { Folder } from '../../../classes/file-manager/folder';
 import { FileManagerEnum } from '../../../enum/file-manager-enum';
 import FolderBreadcrumb from '../FolderBreadcrumb.vue';
+import Formatter from '../../../services/formatter';
 
 const { fileManagerState, setCurrentDir, navigateDirUp } = useFileManager();
 const { audioPlayerState, startAudio, togglePlayPause } = useAudioPlayer();
@@ -56,8 +57,8 @@ const itemPlayIcon = (itemResourceId: string) => {
       <tr>
         <th scope="col"></th>
         <th scope="col">Name</th>
-        <th scope="col">Path</th>
-        <th scope="col">Action</th>
+        <th scope="col">Size</th>
+        <th scope="col">Uploaded</th>
       </tr>
     </thead>
     <tbody>
@@ -91,9 +92,9 @@ const itemPlayIcon = (itemResourceId: string) => {
           <th>
             <img
               v-if="item.constructor.name === AudioFile.name"
-              src="/src/assets/icons/bootstrap/dark/file-earmark-music.svg"
               height="30"
-              alt="AudioFile"
+              :src="itemPlayIcon(item.resourceId)"
+              alt="PausePlayCircle"
             />
             <img
               v-if="item.constructor.name === Folder.name"
@@ -109,20 +110,12 @@ const itemPlayIcon = (itemResourceId: string) => {
             />
           </th>
           <td>{{ item.name }}</td>
-          <td>{{ item.path }}</td>
           <td>
-            <img
-              v-if="item.constructor.name === AudioFile.name"
-              height="30"
-              :src="itemPlayIcon(item.resourceId)"
-              alt="PausePlayCircle"
-            />
-            <img
-              v-if="item.constructor.name === Folder.name"
-              src="/src/assets/icons/bootstrap/dark/arrow-return-right.svg"
-              alt="Return"
-            />
+            <div v-if="item.constructor.name === AudioFile.name">
+              {{ Formatter.formatBytes(item.size) }}
+            </div>
           </td>
+          <td>{{ Formatter.formatDate(new Date(item.created)) }}</td>
         </tr>
       </template>
     </tbody>
